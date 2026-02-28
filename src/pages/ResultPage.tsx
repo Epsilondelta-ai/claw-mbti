@@ -3,6 +3,17 @@ import { parseResultFromParams, DIMENSION_POLES, type Dimension } from '../data/
 import { getPersonality } from '../data/personalities';
 import { useLocale, t } from '../data/i18n';
 
+/** Eager-import all MBTI images so Vite hashes them at build time */
+const mbtiImages = import.meta.glob<string>(
+  '../assets/images/mbti/*.jpeg',
+  { eager: true, import: 'default' },
+);
+
+function getMbtiImage(type: string): string | undefined {
+  const key = `../assets/images/mbti/${type.toUpperCase()}.jpeg`;
+  return mbtiImages[key];
+}
+
 /** Map pole letter \u2192 CSS color variable name */
 const POLE_COLORS: Record<string, string> = {
   E: 'var(--color-accent-e)',
@@ -66,9 +77,22 @@ export default function ResultPage() {
             {s.result.backLink}
           </Link>
 
-          {personality && (
-            <div className="text-5xl mb-4">{personality.emoji}</div>
-          )}
+          {(() => {
+            const img = getMbtiImage(result.type);
+            if (img) {
+              return (
+                <img
+                  src={img}
+                  alt={result.type}
+                  className="w-48 h-48 md:w-64 md:h-64 mx-auto mb-6 rounded-2xl object-cover border-2 border-white/10 shadow-[0_0_30px_rgba(99,102,241,0.15)]"
+                />
+              );
+            }
+            if (personality) {
+              return <div className="text-5xl mb-4">{personality.emoji}</div>;
+            }
+            return null;
+          })()}
 
           <h1
             className="text-4xl md:text-6xl font-black tracking-tight mb-2"
