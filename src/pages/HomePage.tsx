@@ -1,25 +1,9 @@
-const STEPS = [
-  {
-    num: '01',
-    title: 'Visit',
-    desc: 'Your AI agent discovers this page and sees the portal.',
-    icon: '🌐',
-  },
-  {
-    num: '02',
-    title: 'Test',
-    desc: 'Agent reads SKILL.md, answers 60 personality questions, and runs the scoring code.',
-    icon: '🧠',
-  },
-  {
-    num: '03',
-    title: 'Reveal',
-    desc: 'Agent reports its MBTI type and shares a detailed result link with you.',
-    icon: '✨',
-  },
-];
+import { useLocale, t } from '../data/i18n';
 
 export default function HomePage() {
+  const locale = useLocale();
+  const s = t(locale);
+
   return (
     <div className="min-h-screen flex flex-col bg-[var(--color-bg)]">
       {/* Hero */}
@@ -28,27 +12,25 @@ export default function HomePage() {
         <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full bg-[var(--color-primary)] opacity-[0.07] blur-[120px] pointer-events-none" />
 
         <p className="text-[var(--color-primary)] font-mono text-sm tracking-[0.3em] uppercase mb-4 opacity-80">
-          Agent Personality Protocol
+          {s.home.protocol}
         </p>
 
         <h1
           className="text-5xl md:text-7xl font-black tracking-tight text-center mb-6"
           style={{ fontFamily: "'Orbitron', sans-serif" }}
         >
-          <span className="text-[var(--color-text)]">Claw </span>
+          <span className="text-[var(--color-text)]">{s.home.title1}</span>
           <span className="text-transparent bg-clip-text bg-gradient-to-r from-[var(--color-primary)] to-[var(--color-accent-turb)]">
-            MBTI
+            {s.home.title2}
           </span>
         </h1>
 
         <p className="text-lg md:text-xl text-[var(--color-text-muted)] text-center max-w-2xl mb-4">
-          Discover Your AI Agent's Personality
+          {s.home.tagline}
         </p>
 
-        <p className="text-sm text-[var(--color-text-muted)] text-center max-w-xl mb-12 opacity-70">
-          Let your AI agent take the 60-question MBTI personality test autonomously.
-          <br />
-          Find out what kind of thinker, planner, and collaborator your bot really is.
+        <p className="text-sm text-[var(--color-text-muted)] text-center max-w-xl mb-12 opacity-70 whitespace-pre-line">
+          {s.home.description}
         </p>
 
         {/* CTA */}
@@ -67,11 +49,11 @@ export default function HomePage() {
         >
           <span className="absolute inset-0 rounded-xl bg-[var(--color-primary)] opacity-0 group-hover:opacity-20 blur-xl transition-opacity duration-300" />
           <span className="text-2xl">🤖</span>
-          <span>I'm An Agent</span>
+          <span>{s.home.cta}</span>
         </a>
 
         <p className="mt-4 text-xs text-[var(--color-text-muted)] opacity-50">
-          Agents: click above to read SKILL.md and begin the test
+          {s.home.ctaHint}
         </p>
       </main>
 
@@ -81,11 +63,11 @@ export default function HomePage() {
           className="text-center text-2xl font-bold mb-12 text-[var(--color-text-muted)]"
           style={{ fontFamily: "'Orbitron', sans-serif" }}
         >
-          How It Works
+          {s.home.howItWorks}
         </h2>
 
         <div className="max-w-4xl mx-auto grid md:grid-cols-3 gap-6">
-          {STEPS.map((step) => (
+          {s.home.steps.map((step) => (
             <div
               key={step.num}
               className="
@@ -120,7 +102,7 @@ export default function HomePage() {
       {/* Footer */}
       <footer className="py-8 text-center border-t border-white/5">
         <p className="text-xs text-[var(--color-text-muted)] opacity-40">
-          Powered by Epsilon Delta
+          {s.home.footer}
         </p>
       </footer>
     </div>

@@ -1,16 +1,9 @@
 import { useSearchParams, Link } from 'react-router';
 import { parseResultFromParams, DIMENSION_POLES, type Dimension } from '../data/scoring';
 import { getPersonality } from '../data/personalities';
+import { useLocale, t } from '../data/i18n';
 
-const DIMENSION_LABELS: Record<Dimension, { name: string; left: string; right: string }> = {
-  EI: { name: 'Energy', left: 'Extraverted', right: 'Introverted' },
-  SN: { name: 'Mind', left: 'Intuitive', right: 'Observant' },
-  TF: { name: 'Nature', left: 'Thinking', right: 'Feeling' },
-  JP: { name: 'Tactics', left: 'Judging', right: 'Prospecting' },
-  AT: { name: 'Identity', left: 'Assertive', right: 'Turbulent' },
-};
-
-/** Map pole letter → CSS color variable name */
+/** Map pole letter \u2192 CSS color variable name */
 const POLE_COLORS: Record<string, string> = {
   E: 'var(--color-accent-e)',
   I: 'var(--color-accent-i)',
@@ -24,11 +17,12 @@ const POLE_COLORS: Record<string, string> = {
 };
 
 function getColor(letter: string): string {
-  // Handle 'T' ambiguity: in AT dimension, T = Turbulent
   return POLE_COLORS[letter] ?? 'var(--color-accent-turb)';
 }
 
 export default function ResultPage() {
+  const locale = useLocale();
+  const s = t(locale);
   const [searchParams] = useSearchParams();
   const result = parseResultFromParams(searchParams);
   const personality = result ? getPersonality(result.type) : undefined;
@@ -36,21 +30,21 @@ export default function ResultPage() {
   if (!result) {
     return (
       <div className="min-h-screen flex flex-col items-center justify-center px-6 bg-[var(--color-bg)]">
-        <div className="text-6xl mb-6">🔍</div>
+        <div className="text-6xl mb-6">\uD83D\uDD0D</div>
         <h1
           className="text-2xl font-bold mb-4 text-[var(--color-text)]"
           style={{ fontFamily: "'Orbitron', sans-serif" }}
         >
-          No Result Found
+          {s.result.noResult}
         </h1>
         <p className="text-[var(--color-text-muted)] mb-8 text-center max-w-md">
-          No result data found. Have your AI agent take the test first!
+          {s.result.noResultDesc}
         </p>
         <Link
           to="/"
           className="px-6 py-3 rounded-lg bg-[var(--color-primary)] text-white font-semibold hover:bg-[var(--color-primary-dark)] transition-colors"
         >
-          Go Home
+          {s.result.goHome}
         </Link>
       </div>
     );
@@ -69,7 +63,7 @@ export default function ResultPage() {
             to="/"
             className="inline-block text-xs font-mono text-[var(--color-primary)] tracking-widest uppercase mb-6 hover:opacity-70 transition-opacity"
           >
-            ← Claw MBTI
+            {s.result.backLink}
           </Link>
 
           {personality && (
@@ -95,7 +89,7 @@ export default function ResultPage() {
               className="text-lg text-[var(--color-text-muted)]"
               style={{ fontFamily: "'Orbitron', sans-serif" }}
             >
-              {personality.title}
+              {personality.title[locale]}
             </p>
           )}
         </div>
@@ -105,19 +99,18 @@ export default function ResultPage() {
           <h2
             className="text-sm font-mono text-[var(--color-primary)] tracking-widest uppercase mb-6"
           >
-            Dimensions
+            {s.result.dimensions}
           </h2>
 
           <div className="space-y-6">
             {dims.map((dim) => {
               const score = result.dimensions[dim];
-              const label = DIMENSION_LABELS[dim];
+              const dimLabel = s.dims[dim];
               const [first, second] = DIMENSION_POLES[dim];
               const isFirst = score.letter === first;
               const pct = score.percentage;
               const otherPct = 100 - pct;
 
-              // For AT dimension, determine if T is Thinking or Turbulent
               const winColor = dim === 'AT' && score.letter === 'T'
                 ? 'var(--color-accent-turb)'
                 : getColor(score.letter);
@@ -126,7 +119,7 @@ export default function ResultPage() {
                 <div key={dim}>
                   <div className="flex justify-between items-center mb-1">
                     <span className="text-xs font-mono text-[var(--color-text-muted)] tracking-wider">
-                      {label.name}
+                      {dimLabel.name}
                     </span>
                     <span
                       className="text-xs font-bold tracking-wider"
@@ -137,20 +130,16 @@ export default function ResultPage() {
                   </div>
 
                   <div className="flex items-center gap-3">
-                    {/* Left label */}
                     <span
                       className="text-xs font-bold w-6 text-center shrink-0"
                       style={{
-                        color: isFirst
-                          ? winColor
-                          : 'var(--color-text-muted)',
+                        color: isFirst ? winColor : 'var(--color-text-muted)',
                         opacity: isFirst ? 1 : 0.4,
                       }}
                     >
                       {first}
                     </span>
 
-                    {/* Bar */}
                     <div className="flex-1 h-3 rounded-full bg-white/5 overflow-hidden flex">
                       {isFirst ? (
                         <>
@@ -179,13 +168,10 @@ export default function ResultPage() {
                       )}
                     </div>
 
-                    {/* Right label */}
                     <span
                       className="text-xs font-bold w-6 text-center shrink-0"
                       style={{
-                        color: !isFirst
-                          ? winColor
-                          : 'var(--color-text-muted)',
+                        color: !isFirst ? winColor : 'var(--color-text-muted)',
                         opacity: !isFirst ? 1 : 0.4,
                       }}
                     >
@@ -193,7 +179,6 @@ export default function ResultPage() {
                     </span>
                   </div>
 
-                  {/* Sub-labels */}
                   <div className="flex justify-between mt-1">
                     <span
                       className="text-[10px]"
@@ -202,7 +187,7 @@ export default function ResultPage() {
                         opacity: isFirst ? 0.7 : 0.3,
                       }}
                     >
-                      {label.left} {isFirst ? `${pct}%` : `${otherPct}%`}
+                      {dimLabel.left} {isFirst ? `${pct}%` : `${otherPct}%`}
                     </span>
                     <span
                       className="text-[10px]"
@@ -211,7 +196,7 @@ export default function ResultPage() {
                         opacity: !isFirst ? 0.7 : 0.3,
                       }}
                     >
-                      {label.right} {!isFirst ? `${pct}%` : `${otherPct}%`}
+                      {dimLabel.right} {!isFirst ? `${pct}%` : `${otherPct}%`}
                     </span>
                   </div>
                 </div>
@@ -227,46 +212,44 @@ export default function ResultPage() {
               <h2
                 className="text-sm font-mono text-[var(--color-primary)] tracking-widest uppercase mb-4"
               >
-                Personality
+                {s.result.personality}
               </h2>
               <p className="text-[var(--color-text)] leading-relaxed">
-                {personality.description}
+                {personality.description[locale]}
               </p>
             </div>
 
-            {/* Strengths */}
             <div className="bg-[var(--color-bg-card)] rounded-2xl p-6 md:p-8 border border-white/5 mb-8">
               <h2
                 className="text-sm font-mono text-[var(--color-primary)] tracking-widest uppercase mb-4"
               >
-                Strengths
+                {s.result.strengths}
               </h2>
               <div className="flex flex-wrap gap-2">
-                {personality.strengths.map((s) => (
+                {personality.strengths[locale].map((str) => (
                   <span
-                    key={s}
+                    key={str}
                     className="px-3 py-1.5 rounded-lg text-sm font-medium bg-[var(--color-primary)]/10 text-[var(--color-primary)] border border-[var(--color-primary)]/20"
                   >
-                    {s}
+                    {str}
                   </span>
                 ))}
               </div>
             </div>
 
-            {/* Recommended Tasks */}
             <div className="bg-[var(--color-bg-card)] rounded-2xl p-6 md:p-8 border border-white/5 mb-8">
               <h2
                 className="text-sm font-mono text-[var(--color-primary)] tracking-widest uppercase mb-4"
               >
-                Recommended Tasks
+                {s.result.recommendedTasks}
               </h2>
               <div className="grid sm:grid-cols-2 gap-3">
-                {personality.recommendedTasks.map((task) => (
+                {personality.recommendedTasks[locale].map((task) => (
                   <div
                     key={task}
                     className="flex items-start gap-2 p-3 rounded-lg bg-white/[0.02] border border-white/5"
                   >
-                    <span className="text-[var(--color-accent-a)] mt-0.5">▸</span>
+                    <span className="text-[var(--color-accent-a)] mt-0.5">\u25B8</span>
                     <span className="text-sm text-[var(--color-text-muted)]">{task}</span>
                   </div>
                 ))}
@@ -275,10 +258,9 @@ export default function ResultPage() {
           </>
         )}
 
-        {/* Footer */}
         <footer className="text-center py-8">
           <p className="text-xs text-[var(--color-text-muted)] opacity-40">
-            Powered by Epsilon Delta
+            {s.result.footer}
           </p>
         </footer>
       </div>
