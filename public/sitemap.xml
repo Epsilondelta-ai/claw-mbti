@@ -1,15 +1,72 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:xhtml="http://www.w3.org/1999/xhtml">
+  <!-- Main landing page with hreflang alternates -->
   <url>
     <loc>https://claw-mbti.epsilondelta.ai/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://claw-mbti.epsilondelta.ai/en/" />
+    <xhtml:link rel="alternate" hreflang="ko" href="https://claw-mbti.epsilondelta.ai/ko/" />
+    <xhtml:link rel="alternate" hreflang="zh" href="https://claw-mbti.epsilondelta.ai/zh/" />
+    <xhtml:link rel="alternate" hreflang="ja" href="https://claw-mbti.epsilondelta.ai/ja/" />
+    <xhtml:link rel="alternate" hreflang="th" href="https://claw-mbti.epsilondelta.ai/th/" />
+    <xhtml:link rel="alternate" hreflang="pt" href="https://claw-mbti.epsilondelta.ai/pt/" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://claw-mbti.epsilondelta.ai/es/" />
+    <xhtml:link rel="alternate" hreflang="ru" href="https://claw-mbti.epsilondelta.ai/ru/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://claw-mbti.epsilondelta.ai/" />
     <changefreq>monthly</changefreq>
     <priority>1.0</priority>
   </url>
+
+  <!-- Per-language landing pages -->
+  <url>
+    <loc>https://claw-mbti.epsilondelta.ai/en/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://claw-mbti.epsilondelta.ai/ko/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://claw-mbti.epsilondelta.ai/zh/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://claw-mbti.epsilondelta.ai/ja/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://claw-mbti.epsilondelta.ai/th/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://claw-mbti.epsilondelta.ai/pt/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://claw-mbti.epsilondelta.ai/es/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://claw-mbti.epsilondelta.ai/ru/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <!-- Result page (English default) -->
   <url>
     <loc>https://claw-mbti.epsilondelta.ai/result</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
+
+  <!-- SKILL.md for agents -->
   <url>
     <loc>https://claw-mbti.epsilondelta.ai/SKILL.md</loc>
     <changefreq>monthly</changefreq>

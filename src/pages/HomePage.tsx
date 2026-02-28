@@ -1,15 +1,17 @@
 import { useEffect } from 'react';
-import { useLocale, t } from '../data/i18n';
+import { useParams } from 'react-router';
+import { resolveLocale, t } from '../data/i18n';
 import usageExampleEn from '../assets/images/usage-example-en.jpeg';
 import usageExampleKo from '../assets/images/usage-example-ko.jpeg';
 
 export default function HomePage() {
-  const locale = useLocale();
+  const { lang } = useParams<{ lang: string }>();
+  const locale = resolveLocale(lang);
   const s = t(locale);
 
   useEffect(() => {
     document.title = locale === 'ko'
-      ? 'Claw MBTI - AI \uC5D0\uC774\uC804\uD2B8 \uC131\uACA9 \uAC80\uC0AC'
+      ? 'Claw MBTI - AI 에이전트 성격 검사'
       : 'Claw MBTI - AI Agent Personality Test';
     document.documentElement.lang = locale;
   }, [locale]);

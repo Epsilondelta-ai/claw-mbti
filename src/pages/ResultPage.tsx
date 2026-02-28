@@ -2,13 +2,13 @@ import { useEffect, useState } from 'react';
 import { useSearchParams, useParams, Link } from 'react-router';
 import { parseResultFromParams, DIMENSION_POLES, type Dimension } from '../data/scoring';
 import { getPersonality } from '../data/personalities';
-import { useLocale, t } from '../data/i18n';
+import { resolveLocale, t } from '../data/i18n';
 
 function getMbtiImageUrl(type: string): string {
   return `/images/mbti/${type.toUpperCase()}.jpeg`;
 }
 
-/** Map pole letter \u2192 CSS color variable name */
+/** Map pole letter → CSS color variable name */
 const POLE_COLORS: Record<string, string> = {
   E: 'var(--color-accent-e)',
   I: 'var(--color-accent-i)',
@@ -26,16 +26,16 @@ function getColor(letter: string): string {
 }
 
 export default function ResultPage() {
-  const locale = useLocale();
+  const { lang, type: pathType } = useParams<{ lang: string; type: string }>();
+  const locale = resolveLocale(lang);
   const s = t(locale);
-  const { type: pathType } = useParams<{ type: string }>();
   const [searchParams] = useSearchParams();
   const result = parseResultFromParams(searchParams, pathType);
   const personality = result ? getPersonality(result.type) : undefined;
   const [copied, setCopied] = useState(false);
 
   useEffect(() => {
-    const base = locale === 'ko' ? 'Claw MBTI \uACB0\uACFC' : 'Claw MBTI Result';
+    const base = locale === 'ko' ? 'Claw MBTI 결과' : 'Claw MBTI Result';
     document.title = result
       ? `${result.type.toUpperCase()} - ${base}`
       : base;
@@ -50,7 +50,8 @@ export default function ResultPage() {
       const signedPct = score.rawScore >= 0 ? score.percentage : -score.percentage;
       params.set(dim.toLowerCase(), String(signedPct));
     }
-    return `https://claw-mbti.epsilondelta.ai/result/${result.type.toLowerCase()}?${params}`;
+    const langPrefix = locale === 'en' ? '' : `/${locale}`;
+    return `https://claw-mbti.epsilondelta.ai${langPrefix}/result/${result.type.toLowerCase()}?${params}`;
   }
 
   function handleShare() {
@@ -64,7 +65,7 @@ export default function ResultPage() {
     });
     const title = personality.title[locale];
     const text = [
-      `\uD83E\uDDE0 ${result.type.toUpperCase()} | ${title}`,
+      `🧠 ${result.type.toUpperCase()} | ${title}`,
       '',
       ...lines,
       '',
@@ -75,6 +76,8 @@ export default function ResultPage() {
       setTimeout(() => setCopied(false), 2000);
     });
   }
+
+  const homePath = lang ? `/${lang}` : '/';
 
   if (!result) {
     return (
@@ -90,7 +93,7 @@ export default function ResultPage() {
           {s.result.noResultDesc}
         </p>
         <Link
-          to="/"
+          to={homePath}
           className="px-6 py-3 rounded-lg bg-[var(--color-primary)] text-white font-semibold hover:bg-[var(--color-primary-dark)] transition-colors"
         >
           {s.result.goHome}
@@ -109,7 +112,7 @@ export default function ResultPage() {
         {/* Header */}
         <div className="text-center mb-10">
           <Link
-            to="/"
+            to={homePath}
             className="inline-block text-xs font-mono text-[var(--color-primary)] tracking-widest uppercase mb-6 hover:opacity-70 transition-opacity"
           >
             {s.result.backLink}

@@ -6,6 +6,9 @@ const router = createBrowserRouter([
   { path: '/', element: <HomePage /> },
   { path: '/result/:type', element: <ResultPage /> },
   { path: '/result', element: <ResultPage /> },
+  { path: '/:lang', element: <HomePage /> },
+  { path: '/:lang/result/:type', element: <ResultPage /> },
+  { path: '/:lang/result', element: <ResultPage /> },
 ]);
 
 export default function App() {
