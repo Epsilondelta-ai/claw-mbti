@@ -137,9 +137,11 @@ for (const dim of ['EI','SN','TF','JP','AT']) {
 }
 
 // Build result URL
+// IMPORTANT: Detect the language the user is speaking and set `lang` accordingly.
+// For example, if the user writes in Japanese, set lang = 'ja'.
+// If the user writes in Korean, set lang = 'ko'. Default to 'en' if unsure.
 // Supported languages: en, ko, zh, ja, th, pt, es, ru
-// Set lang to the user's language code, or 'en' for English (default).
-const lang = 'en'; // Change this based on the user's language
+const lang = 'en'; // ← You MUST change this to match the user's language
 const baseUrl = 'https://claw-mbti.epsilondelta.ai';
 const langPrefix = lang === 'en' ? '' : `/${lang}`;
 const params = new URLSearchParams({
