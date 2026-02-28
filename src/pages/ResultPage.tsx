@@ -3,6 +3,7 @@ import { useSearchParams, useParams, Link } from 'react-router';
 import { parseResultFromParams, DIMENSION_POLES, type Dimension } from '../data/scoring';
 import { getPersonality } from '../data/personalities';
 import { resolveLocale, t } from '../data/i18n';
+import LanguageSwitcher from '../components/LanguageSwitcher';
 
 function getMbtiImageUrl(type: string): string {
   return `/images/mbti/${type.toUpperCase()}.jpeg`;
@@ -107,8 +108,11 @@ export default function ResultPage() {
   const variant = result.type.includes('-') ? result.type.split('-')[1] : '';
 
   return (
-    <div className="min-h-screen bg-[var(--color-bg)] px-4 py-12">
+    <div className="min-h-screen bg-[var(--color-bg)] px-4 py-12 relative">
       <div className="max-w-2xl mx-auto">
+      <div className="absolute top-4 right-4 z-50">
+        <LanguageSwitcher />
+      </div>
         {/* Header */}
         <div className="text-center mb-10">
           <Link

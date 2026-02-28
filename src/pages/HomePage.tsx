@@ -3,6 +3,7 @@ import { useParams } from 'react-router';
 import { resolveLocale, t } from '../data/i18n';
 import usageExampleEn from '../assets/images/usage-example-en.jpeg';
 import usageExampleKo from '../assets/images/usage-example-ko.jpeg';
+import LanguageSwitcher from '../components/LanguageSwitcher';
 
 export default function HomePage() {
   const { lang } = useParams<{ lang: string }>();
@@ -17,8 +18,11 @@ export default function HomePage() {
   }, [locale]);
 
   return (
-    <div className="min-h-screen flex flex-col bg-[var(--color-bg)]">
+    <div className="min-h-screen flex flex-col bg-[var(--color-bg)] relative">
       {/* Hero */}
+      <div className="absolute top-6 right-6 z-50">
+        <LanguageSwitcher />
+      </div>
       <main className="flex-1 flex flex-col items-center justify-center px-6 pt-24 pb-16">
         {/* Glow backdrop */}
         <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full bg-[var(--color-primary)] opacity-[0.07] blur-[120px] pointer-events-none" />
