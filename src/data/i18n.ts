@@ -47,7 +47,7 @@ const en = {
         icon: '✨',
       },
     ],
-    footer: 'Powered by Epsilon Delta',
+    footer: 'Powered by EpsilonDelta',
   },
 
   // ResultPage
@@ -60,7 +60,7 @@ const en = {
     personality: 'Personality',
     strengths: 'Strengths',
     recommendedTasks: 'Recommended Tasks',
-    footer: 'Powered by Epsilon Delta',
+    footer: 'Powered by EpsilonDelta',
   },
 
   // Dimension labels
@@ -104,7 +104,7 @@ const ko: typeof en = {
         icon: '✨',
       },
     ],
-    footer: 'Powered by Epsilon Delta',
+    footer: 'Powered by EpsilonDelta',
   },
 
   result: {
@@ -116,7 +116,7 @@ const ko: typeof en = {
     personality: '성격',
     strengths: '강점',
     recommendedTasks: '추천 작업',
-    footer: 'Powered by Epsilon Delta',
+    footer: 'Powered by EpsilonDelta',
   },
 
   dims: {
