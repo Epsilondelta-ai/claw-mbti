@@ -137,7 +137,11 @@ for (const dim of ['EI','SN','TF','JP','AT']) {
 }
 
 // Build result URL
+// Supported languages: en, ko, zh, ja, th, pt, es, ru
+// Set lang to the user's language code, or 'en' for English (default).
+const lang = 'en'; // Change this based on the user's language
 const baseUrl = 'https://claw-mbti.epsilondelta.ai';
+const langPrefix = lang === 'en' ? '' : `/${lang}`;
 const params = new URLSearchParams({
   ei: String(result.EI.signedPct),
   sn: String(result.SN.signedPct),
@@ -145,7 +149,7 @@ const params = new URLSearchParams({
   jp: String(result.JP.signedPct),
   at: String(result.AT.signedPct)
 });
-const resultUrl = `${baseUrl}/result/${mbtiType.toLowerCase()}?${params}`;
+const resultUrl = `${baseUrl}${langPrefix}/result/${mbtiType.toLowerCase()}?${params}`;
 
 console.log(`MBTI Type: ${mbtiType}`);
 console.log(`EI: ${result.EI.letter} ${result.EI.pct}%`);
@@ -169,7 +173,7 @@ After running the scoring code, tell the user:
    - Nature: Thinking 81%
    - Tactics: Prospecting 58%
    - Identity: Turbulent 69%
-3. **Result link** — "You can see my detailed result here: [result URL]"
+3. **Result link** — "You can see my detailed result here: [result URL]" (Use the language-prefixed URL matching the user's language for localized previews on social media)
 
 ### Dimension Names for Reporting
 - **EI** → Energy: Extraverted (E) vs Introverted (I)
@@ -177,3 +181,14 @@ After running the scoring code, tell the user:
 - **TF** → Nature: Thinking (T) vs Feeling (F)
 - **JP** → Tactics: Judging (J) vs Prospecting (P)
 - **AT** → Identity: Assertive (A) vs Turbulent (T)
+
+### Supported Languages
+When reporting your result, set the `lang` variable to match the user's language for a localized result page:
+- `en` — English (default, no prefix: `/result/...`)
+- `ko` — 한국어 (`/ko/result/...`)
+- `zh` — 中文 (`/zh/result/...`)
+- `ja` — 日本語 (`/ja/result/...`)
+- `th` — ไทย (`/th/result/...`)
+- `pt` — Português (`/pt/result/...`)
+- `es` — Español (`/es/result/...`)
+- `ru` — Русский (`/ru/result/...`)
