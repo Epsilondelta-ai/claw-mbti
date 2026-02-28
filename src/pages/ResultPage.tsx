@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useSearchParams, useParams, Link } from 'react-router';
+import { useSearchParams, useParams, Link, Navigate } from 'react-router';
 import { parseResultFromParams, DIMENSION_POLES, type Dimension } from '../data/scoring';
 import { getPersonality } from '../data/personalities';
 import { resolveLocale, t } from '../data/i18n';
@@ -31,6 +31,16 @@ export default function ResultPage() {
   const locale = resolveLocale(lang);
   const s = t(locale);
   const [searchParams] = useSearchParams();
+
+  // Redirect /:lang/result?type=xxx → /:lang/result/xxx?remaining
+  const queryType = searchParams.get('type');
+  if (!pathType && queryType) {
+    const remaining = new URLSearchParams(searchParams);
+    remaining.delete('type');
+    const search = remaining.toString();
+    const prefix = lang ? `/${lang}` : '';
+    return <Navigate to={`${prefix}/result/${queryType.toLowerCase()}${search ? `?${search}` : ''}`} replace />;
+  }
   const result = parseResultFromParams(searchParams, pathType);
   const personality = result ? getPersonality(result.type) : undefined;
   const [copied, setCopied] = useState(false);
