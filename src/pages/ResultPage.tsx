@@ -30,7 +30,7 @@ export default function ResultPage() {
   if (!result) {
     return (
       <div className="min-h-screen flex flex-col items-center justify-center px-6 bg-[var(--color-bg)]">
-        <div className="text-6xl mb-6">\uD83D\uDD0D</div>
+        <div className="text-6xl mb-6">🔍</div>
         <h1
           className="text-2xl font-bold mb-4 text-[var(--color-text)]"
           style={{ fontFamily: "'Orbitron', sans-serif" }}
@@ -147,8 +147,8 @@ export default function ResultPage() {
                             className="h-full rounded-full transition-all duration-700 ease-out"
                             style={{
                               width: `${pct}%`,
-                              background: `linear-gradient(90deg, ${winColor}, ${winColor}88)`,
-                              boxShadow: `0 0 12px ${winColor}40`,
+                              background: `linear-gradient(90deg, ${winColor}, color-mix(in srgb, ${winColor} 50%, transparent))`,
+                              boxShadow: `0 0 12px color-mix(in srgb, ${winColor} 25%, transparent)`,
                             }}
                           />
                           <div className="flex-1" />
@@ -160,8 +160,8 @@ export default function ResultPage() {
                             className="h-full rounded-full transition-all duration-700 ease-out"
                             style={{
                               width: `${pct}%`,
-                              background: `linear-gradient(270deg, ${winColor}, ${winColor}88)`,
-                              boxShadow: `0 0 12px ${winColor}40`,
+                              background: `linear-gradient(270deg, ${winColor}, color-mix(in srgb, ${winColor} 50%, transparent))`,
+                              boxShadow: `0 0 12px color-mix(in srgb, ${winColor} 25%, transparent)`,
                             }}
                           />
                         </>
@@ -249,7 +249,7 @@ export default function ResultPage() {
                     key={task}
                     className="flex items-start gap-2 p-3 rounded-lg bg-white/[0.02] border border-white/5"
                   >
-                    <span className="text-[var(--color-accent-a)] mt-0.5">\u25B8</span>
+                    <span className="text-[var(--color-accent-a)] mt-0.5">▸</span>
                     <span className="text-sm text-[var(--color-text-muted)]">{task}</span>
                   </div>
                 ))}
