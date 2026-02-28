@@ -1,8 +1,8 @@
 import { useEffect } from 'react';
 import { useParams } from 'react-router';
 import { resolveLocale, t } from '../data/i18n';
-import usageExampleEn from '../assets/images/usage-example-en.jpeg';
-import usageExampleKo from '../assets/images/usage-example-ko.jpeg';
+import usageExample1 from '../assets/images/usage-example1.jpg';
+import usageExample2 from '../assets/images/usage-example2.jpg';
 import LanguageSwitcher from '../components/LanguageSwitcher';
 
 export default function HomePage() {
@@ -151,9 +151,14 @@ export default function HomePage() {
           {s.home.usageExample}
         </h2>
 
-        <div className="max-w-3xl mx-auto">
+        <div className="max-w-3xl mx-auto space-y-6">
           <img
-            src={locale === 'ko' ? usageExampleKo : usageExampleEn}
+            src={usageExample1}
+            alt={s.home.usageExample}
+            className="w-full rounded-2xl border border-white/10 shadow-[0_8px_30px_rgba(0,0,0,0.3)]"
+          />
+          <img
+            src={usageExample2}
             alt={s.home.usageExample}
             className="w-full rounded-2xl border border-white/10 shadow-[0_8px_30px_rgba(0,0,0,0.3)]"
           />
