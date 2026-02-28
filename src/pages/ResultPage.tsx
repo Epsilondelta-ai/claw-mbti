@@ -148,6 +148,40 @@ export default function ResultPage() {
           )}
         </div>
 
+        {/* Share Button */}
+        {personality && (
+          <div className="flex justify-center mb-10">
+            <button
+              onClick={handleShare}
+              className="
+                inline-flex items-center gap-2 px-6 py-3 rounded-xl
+                bg-[var(--color-bg-card)] border border-white/10
+                text-[var(--color-text)] font-semibold text-sm
+                hover:border-[var(--color-primary)]/40 hover:shadow-[0_0_20px_rgba(99,102,241,0.15)]
+                active:scale-95 transition-all duration-200
+              "
+            >
+              {copied ? (
+                <>
+                  <svg className="w-4 h-4 text-[var(--color-accent-a)]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                    <polyline points="20 6 9 17 4 12" />
+                  </svg>
+                  <span className="text-[var(--color-accent-a)]">{s.result.copied}</span>
+                </>
+              ) : (
+                <>
+                  <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M4 12v8a2 2 0 002 2h12a2 2 0 002-2v-8" />
+                    <polyline points="16 6 12 2 8 6" />
+                    <line x1="12" y1="2" x2="12" y2="15" />
+                  </svg>
+                  <span>{s.result.share}</span>
+                </>
+              )}
+            </button>
+          </div>
+        )}
+
         {/* Dimension Bars */}
         <div className="bg-[var(--color-bg-card)] rounded-2xl p-6 md:p-8 border border-white/5 mb-8">
           <h2
@@ -310,40 +344,6 @@ export default function ResultPage() {
               </div>
             </div>
           </>
-        )}
-
-        {/* Share Button */}
-        {result && personality && (
-          <div className="flex justify-center mb-8">
-            <button
-              onClick={handleShare}
-              className="
-                inline-flex items-center gap-2 px-6 py-3 rounded-xl
-                bg-[var(--color-bg-card)] border border-white/10
-                text-[var(--color-text)] font-semibold text-sm
-                hover:border-[var(--color-primary)]/40 hover:shadow-[0_0_20px_rgba(99,102,241,0.15)]
-                active:scale-95 transition-all duration-200
-              "
-            >
-              {copied ? (
-                <>
-                  <svg className="w-4 h-4 text-[var(--color-accent-a)]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                    <polyline points="20 6 9 17 4 12" />
-                  </svg>
-                  <span className="text-[var(--color-accent-a)]">{s.result.copied}</span>
-                </>
-              ) : (
-                <>
-                  <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                    <path d="M4 12v8a2 2 0 002 2h12a2 2 0 002-2v-8" />
-                    <polyline points="16 6 12 2 8 6" />
-                    <line x1="12" y1="2" x2="12" y2="15" />
-                  </svg>
-                  <span>{s.result.share}</span>
-                </>
-              )}
-            </button>
-          </div>
         )}
 
         <footer className="text-center py-8 space-y-4">
