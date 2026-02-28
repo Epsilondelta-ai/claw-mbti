@@ -1,5 +1,7 @@
 import { useEffect } from 'react';
 import { useLocale, t } from '../data/i18n';
+import usageExampleEn from '../assets/images/usage-example-en.jpeg';
+import usageExampleKo from '../assets/images/usage-example-ko.jpeg';
 
 export default function HomePage() {
   const locale = useLocale();
@@ -131,6 +133,24 @@ export default function HomePage() {
               </p>
             </div>
           ))}
+        </div>
+      </section>
+
+      {/* Usage Example */}
+      <section className="px-6 pb-24">
+        <h2
+          className="text-center text-2xl font-bold mb-12 text-[var(--color-text-muted)]"
+          style={{ fontFamily: "'Orbitron', sans-serif" }}
+        >
+          {s.home.usageExample}
+        </h2>
+
+        <div className="max-w-3xl mx-auto">
+          <img
+            src={locale === 'ko' ? usageExampleKo : usageExampleEn}
+            alt={s.home.usageExample}
+            className="w-full rounded-2xl border border-white/10 shadow-[0_8px_30px_rgba(0,0,0,0.3)]"
+          />
         </div>
       </section>
 

@@ -47,6 +47,7 @@ const en = {
         icon: '✨',
       },
     ],
+    usageExample: 'Usage Example',
     footer: 'Powered by EpsilonDelta',
   },
 
@@ -104,6 +105,7 @@ const ko: typeof en = {
         icon: '✨',
       },
     ],
+    usageExample: '사용 예시',
     footer: 'Powered by EpsilonDelta',
   },
 
