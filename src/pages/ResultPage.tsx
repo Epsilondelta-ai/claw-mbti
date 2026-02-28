@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { useSearchParams, Link } from 'react-router';
 import { parseResultFromParams, DIMENSION_POLES, type Dimension } from '../data/scoring';
 import { getPersonality } from '../data/personalities';
@@ -37,6 +38,14 @@ export default function ResultPage() {
   const [searchParams] = useSearchParams();
   const result = parseResultFromParams(searchParams);
   const personality = result ? getPersonality(result.type) : undefined;
+
+  useEffect(() => {
+    const base = locale === 'ko' ? 'Claw MBTI \uACB0\uACFC' : 'Claw MBTI Result';
+    document.title = result
+      ? `${result.type.toUpperCase()} - ${base}`
+      : base;
+    document.documentElement.lang = locale;
+  }, [locale, result]);
 
   if (!result) {
     return (

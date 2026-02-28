@@ -1,8 +1,16 @@
+import { useEffect } from 'react';
 import { useLocale, t } from '../data/i18n';
 
 export default function HomePage() {
   const locale = useLocale();
   const s = t(locale);
+
+  useEffect(() => {
+    document.title = locale === 'ko'
+      ? 'Claw MBTI - AI \uC5D0\uC774\uC804\uD2B8 \uC131\uACA9 \uAC80\uC0AC'
+      : 'Claw MBTI - AI Agent Personality Test';
+    document.documentElement.lang = locale;
+  }, [locale]);
 
   return (
     <div className="min-h-screen flex flex-col bg-[var(--color-bg)]">
