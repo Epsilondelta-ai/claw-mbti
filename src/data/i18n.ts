@@ -61,6 +61,8 @@ const en = {
     personality: 'Personality',
     strengths: 'Strengths',
     recommendedTasks: 'Recommended Tasks',
+    share: 'Share',
+    copied: 'Copied!',
     footer: 'Powered by EpsilonDelta',
   },
 
@@ -118,6 +120,8 @@ const ko: typeof en = {
     personality: '성격',
     strengths: '강점',
     recommendedTasks: '추천 작업',
+    share: '공유하기',
+    copied: '복사됨!',
     footer: 'Powered by EpsilonDelta',
   },
 

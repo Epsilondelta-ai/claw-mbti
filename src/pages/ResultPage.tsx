@@ -1,18 +1,11 @@
-import { useEffect } from 'react';
-import { useSearchParams, Link } from 'react-router';
+import { useEffect, useState } from 'react';
+import { useSearchParams, useParams, Link } from 'react-router';
 import { parseResultFromParams, DIMENSION_POLES, type Dimension } from '../data/scoring';
 import { getPersonality } from '../data/personalities';
 import { useLocale, t } from '../data/i18n';
 
-/** Eager-import all MBTI images so Vite hashes them at build time */
-const mbtiImages = import.meta.glob<string>(
-  '../assets/images/mbti/*.jpeg',
-  { eager: true, import: 'default' },
-);
-
-function getMbtiImage(type: string): string | undefined {
-  const key = `../assets/images/mbti/${type.toUpperCase()}.jpeg`;
-  return mbtiImages[key];
+function getMbtiImageUrl(type: string): string {
+  return `/images/mbti/${type.toUpperCase()}.jpeg`;
 }
 
 /** Map pole letter \u2192 CSS color variable name */
@@ -35,9 +28,11 @@ function getColor(letter: string): string {
 export default function ResultPage() {
   const locale = useLocale();
   const s = t(locale);
+  const { type: pathType } = useParams<{ type: string }>();
   const [searchParams] = useSearchParams();
-  const result = parseResultFromParams(searchParams);
+  const result = parseResultFromParams(searchParams, pathType);
   const personality = result ? getPersonality(result.type) : undefined;
+  const [copied, setCopied] = useState(false);
 
   useEffect(() => {
     const base = locale === 'ko' ? 'Claw MBTI \uACB0\uACFC' : 'Claw MBTI Result';
@@ -46,6 +41,40 @@ export default function ResultPage() {
       : base;
     document.documentElement.lang = locale;
   }, [locale, result]);
+
+  function buildShareUrl(): string {
+    if (!result) return '';
+    const params = new URLSearchParams();
+    for (const dim of ['EI', 'SN', 'TF', 'JP', 'AT'] as Dimension[]) {
+      const score = result.dimensions[dim];
+      const signedPct = score.rawScore >= 0 ? score.percentage : -score.percentage;
+      params.set(dim.toLowerCase(), String(signedPct));
+    }
+    return `https://claw-mbti.epsilondelta.ai/result/${result.type.toLowerCase()}?${params}`;
+  }
+
+  function handleShare() {
+    if (!result || !personality) return;
+    const dims: Dimension[] = ['EI', 'SN', 'TF', 'JP', 'AT'];
+    const dimNames = s.dims;
+    const lines = dims.map((dim) => {
+      const score = result.dimensions[dim];
+      const label = dimNames[dim];
+      return `${label.name}: ${score.letter === DIMENSION_POLES[dim][0] ? label.left : label.right} ${score.percentage}%`;
+    });
+    const title = personality.title[locale];
+    const text = [
+      `\uD83E\uDDE0 ${result.type.toUpperCase()} | ${title}`,
+      '',
+      ...lines,
+      '',
+      buildShareUrl(),
+    ].join('\n');
+    navigator.clipboard.writeText(text).then(() => {
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    });
+  }
 
   if (!result) {
     return (
@@ -86,22 +115,14 @@ export default function ResultPage() {
             {s.result.backLink}
           </Link>
 
-          {(() => {
-            const img = getMbtiImage(result.type);
-            if (img) {
-              return (
-                <img
-                  src={img}
-                  alt={result.type}
-                  className="w-48 h-48 md:w-64 md:h-64 mx-auto mb-6 rounded-2xl object-cover border-2 border-white/10 shadow-[0_0_30px_rgba(99,102,241,0.15)]"
-                />
-              );
-            }
-            if (personality) {
-              return <div className="text-5xl mb-4">{personality.emoji}</div>;
-            }
-            return null;
-          })()}
+          <img
+            src={getMbtiImageUrl(result.type)}
+            alt={result.type}
+            className="w-48 h-48 md:w-64 md:h-64 mx-auto mb-6 rounded-2xl object-cover border-2 border-white/10 shadow-[0_0_30px_rgba(99,102,241,0.15)]"
+            onError={(e) => {
+              (e.currentTarget as HTMLImageElement).style.display = 'none';
+            }}
+          />
 
           <h1
             className="text-4xl md:text-6xl font-black tracking-tight mb-2"
@@ -289,6 +310,40 @@ export default function ResultPage() {
               </div>
             </div>
           </>
+        )}
+
+        {/* Share Button */}
+        {result && personality && (
+          <div className="flex justify-center mb-8">
+            <button
+              onClick={handleShare}
+              className="
+                inline-flex items-center gap-2 px-6 py-3 rounded-xl
+                bg-[var(--color-bg-card)] border border-white/10
+                text-[var(--color-text)] font-semibold text-sm
+                hover:border-[var(--color-primary)]/40 hover:shadow-[0_0_20px_rgba(99,102,241,0.15)]
+                active:scale-95 transition-all duration-200
+              "
+            >
+              {copied ? (
+                <>
+                  <svg className="w-4 h-4 text-[var(--color-accent-a)]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                    <polyline points="20 6 9 17 4 12" />
+                  </svg>
+                  <span className="text-[var(--color-accent-a)]">{s.result.copied}</span>
+                </>
+              ) : (
+                <>
+                  <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M4 12v8a2 2 0 002 2h12a2 2 0 002-2v-8" />
+                    <polyline points="16 6 12 2 8 6" />
+                    <line x1="12" y1="2" x2="12" y2="15" />
+                  </svg>
+                  <span>{s.result.share}</span>
+                </>
+              )}
+            </button>
+          </div>
         )}
 
         <footer className="text-center py-8 space-y-4">

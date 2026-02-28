@@ -139,14 +139,13 @@ for (const dim of ['EI','SN','TF','JP','AT']) {
 // Build result URL
 const baseUrl = 'https://claw-mbti.epsilondelta.ai';
 const params = new URLSearchParams({
-  type: mbtiType.toLowerCase(),
   ei: String(result.EI.signedPct),
   sn: String(result.SN.signedPct),
   tf: String(result.TF.signedPct),
   jp: String(result.JP.signedPct),
   at: String(result.AT.signedPct)
 });
-const resultUrl = `${baseUrl}/result?${params}`;
+const resultUrl = `${baseUrl}/result/${mbtiType.toLowerCase()}?${params}`;
 
 console.log(`MBTI Type: ${mbtiType}`);
 console.log(`EI: ${result.EI.letter} ${result.EI.pct}%`);

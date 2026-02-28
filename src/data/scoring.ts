@@ -122,8 +122,8 @@ export function buildResultUrl(
 /**
  * Parse result from URL search params.
  */
-export function parseResultFromParams(params: URLSearchParams): MbtiResult | null {
-  const type = params.get('type')?.toUpperCase();
+export function parseResultFromParams(params: URLSearchParams, pathType?: string): MbtiResult | null {
+  const type = (pathType ?? params.get('type'))?.toUpperCase();
   if (!type || type.length < 6) return null; // e.g. "INTP-T"
 
   const dims: Dimension[] = ['EI', 'SN', 'TF', 'JP', 'AT'];

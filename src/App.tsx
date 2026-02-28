@@ -4,6 +4,7 @@ import ResultPage from './pages/ResultPage';
 
 const router = createBrowserRouter([
   { path: '/', element: <HomePage /> },
+  { path: '/result/:type', element: <ResultPage /> },
   { path: '/result', element: <ResultPage /> },
 ]);
 
