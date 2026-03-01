@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { useParams } from 'react-router';
-import { resolveLocale, t } from '../data/i18n';
+import { resolveLocale, t, seoMeta } from '../data/i18n';
 import usageExample1 from '../assets/images/usage-example1.jpg';
 import usageExample2 from '../assets/images/usage-example2.jpg';
 import LanguageSwitcher from '../components/LanguageSwitcher';
@@ -11,10 +11,30 @@ export default function HomePage() {
   const s = t(locale);
 
   useEffect(() => {
-    document.title = locale === 'ko'
-      ? 'Claw MBTI - AI 에이전트 성격 검사'
-      : 'Claw MBTI - AI Agent Personality Test';
+    const meta = seoMeta[locale];
+    document.title = meta.title;
     document.documentElement.lang = locale;
+
+    const descMeta = document.querySelector('meta[name="description"]');
+    if (descMeta) descMeta.setAttribute('content', meta.description);
+
+    const keywordsMeta = document.querySelector('meta[name="keywords"]');
+    if (keywordsMeta) keywordsMeta.setAttribute('content', meta.keywords);
+
+    const titleMeta = document.querySelector('meta[name="title"]');
+    if (titleMeta) titleMeta.setAttribute('content', meta.title);
+
+    const ogTitle = document.querySelector('meta[property="og:title"]');
+    if (ogTitle) ogTitle.setAttribute('content', meta.title);
+
+    const ogDesc = document.querySelector('meta[property="og:description"]');
+    if (ogDesc) ogDesc.setAttribute('content', meta.description);
+
+    const twitterTitle = document.querySelector('meta[name="twitter:title"]');
+    if (twitterTitle) twitterTitle.setAttribute('content', meta.title);
+
+    const twitterDesc = document.querySelector('meta[name="twitter:description"]');
+    if (twitterDesc) twitterDesc.setAttribute('content', meta.description);
   }, [locale]);
 
   return (

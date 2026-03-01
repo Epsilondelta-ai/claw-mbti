@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useSearchParams, useParams, Link, Navigate } from 'react-router';
 import { parseResultFromParams, DIMENSION_POLES, type Dimension } from '../data/scoring';
 import { getPersonality } from '../data/personalities';
-import { resolveLocale, t } from '../data/i18n';
+import { resolveLocale, t, seoMeta } from '../data/i18n';
 import LanguageSwitcher from '../components/LanguageSwitcher';
 
 function getMbtiImageUrl(type: string): string {
@@ -36,12 +36,27 @@ export default function ResultPage() {
   const [copied, setCopied] = useState(false);
 
   useEffect(() => {
+    const meta = seoMeta[locale];
     const base = locale === 'ko' ? 'Claw MBTI 결과' : 'Claw MBTI Result';
     document.title = result
       ? `${result.type.toUpperCase()} - ${base}`
       : base;
     document.documentElement.lang = locale;
-  }, [locale, result]);
+
+    const descMeta = document.querySelector('meta[name="description"]');
+    if (descMeta) {
+      const desc = result && personality
+        ? `${result.type.toUpperCase()} - ${personality.title[locale]}. ${personality.description[locale]}`
+        : meta.description;
+      descMeta.setAttribute('content', desc);
+    }
+
+    const keywordsMeta = document.querySelector('meta[name="keywords"]');
+    if (keywordsMeta) {
+      const extra = result ? `, ${result.type.toUpperCase()}, ${result.type.toUpperCase()} personality` : '';
+      keywordsMeta.setAttribute('content', meta.keywords + extra);
+    }
+  }, [locale, result, personality]);
 
   // Redirect /:lang/result?type=xxx → /:lang/result/xxx?remaining
   const queryType = searchParams.get('type');
