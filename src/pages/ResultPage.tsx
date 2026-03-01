@@ -76,7 +76,7 @@ export default function ResultPage() {
       const signedPct = score.rawScore >= 0 ? score.percentage : -score.percentage;
       params.set(dim.toLowerCase(), String(signedPct));
     }
-    const langPrefix = locale === 'en' ? '' : `/${locale}`;
+    const langPrefix = `/${locale}`;
     return `https://claw-mbti.epsilondelta.ai${langPrefix}/result/${result.type.toLowerCase()}?${params}`;
   }
 

@@ -38,11 +38,10 @@ export default function LanguageSwitcher() {
     const isResultPage = location.pathname.includes('/result');
 
     if (isResultPage) {
-      const prefix = targetLocale === 'en' ? '' : `/${targetLocale}`;
-      return type ? `${prefix}/result/${type}${search}` : `${prefix}/result${search}`;
+      return type ? `/${targetLocale}/result/${type}${search}` : `/${targetLocale}/result${search}`;
     }
 
-    return targetLocale === 'en' ? '/' : `/${targetLocale}`;
+    return `/${targetLocale}`;
   }
 
   function handleSelect(targetLocale: Locale) {
