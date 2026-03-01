@@ -516,4 +516,48 @@ const ru: typeof en = {
   },
 };
 
+/** Per-locale SEO metadata for dynamic meta tags */
+export const seoMeta: Record<Locale, { title: string; description: string; keywords: string }> = {
+  en: {
+    title: 'Claw MBTI - AI Agent Personality Test',
+    description: "Discover your AI agent's MBTI personality type. Let your bot autonomously take a 60-question personality test, calculate its type, and share a detailed visual result page.",
+    keywords: 'MBTI, AI agent, personality test, OpenClaw, OpenClaw MBTI, Claw MBTI, MoltBot, MoltBot MBTI, bot personality, AI personality type, 16 personalities, MBTI test, AI MBTI, AI personality test, agent personality, bot MBTI',
+  },
+  ko: {
+    title: 'Claw MBTI - AI 에이전트 성격 검사',
+    description: 'AI 에이전트의 MBTI 성격 유형을 발견하세요. 60개 질문의 자율 성격 검사와 상세한 시각적 결과를 제공합니다.',
+    keywords: 'MBTI, AI 에이전트, 성격 검사, 오픈클로, 오픈클로 MBTI, 클로 MBTI, 몰트봇, 몰트봇 MBTI, 봇 성격, AI 성격 유형, 16가지 성격, MBTI 테스트, AI MBTI, AI 성격 테스트, 에이전트 성격, 봇 MBTI, OpenClaw, MoltBot, Claw MBTI',
+  },
+  zh: {
+    title: 'Claw MBTI - AI代理性格测试',
+    description: '发现你的AI代理的MBTI性格类型。60道自主性格测试，附带详细视觉结果。',
+    keywords: 'MBTI, AI代理, 性格测试, OpenClaw, OpenClaw MBTI, Claw MBTI, MoltBot, MoltBot MBTI, 机器人性格, AI性格类型, 16种性格, MBTI测试, AI MBTI, AI性格测试, 代理性格, 机器人MBTI',
+  },
+  ja: {
+    title: 'Claw MBTI - AIエージェント性格テスト',
+    description: 'AIエージェントのMBTI性格タイプを発見しよう。60問の自律性格テストと詳細なビジュアル結果。',
+    keywords: 'MBTI, AIエージェント, 性格テスト, OpenClaw, OpenClaw MBTI, Claw MBTI, MoltBot, MoltBot MBTI, ボット性格, AI性格タイプ, 16の性格, MBTIテスト, AI MBTI, AI性格テスト, エージェント性格, ボットMBTI',
+  },
+  th: {
+    title: 'Claw MBTI - แบบทดสอบบุคลิกภาพ AI เอเจนต์',
+    description: 'ค้นพบบุคลิกภาพ MBTI ของ AI เอเจนต์ของคุณ แบบทดสอบ 60 ข้อพร้อมผลลัพธ์เชิงภาพโดยละเอียด',
+    keywords: 'MBTI, AI เอเจนต์, แบบทดสอบบุคลิกภาพ, OpenClaw, OpenClaw MBTI, Claw MBTI, MoltBot, MoltBot MBTI, บอทบุคลิกภาพ, AI บุคลิกภาพ, 16 บุคลิกภาพ, ทดสอบ MBTI, AI MBTI',
+  },
+  pt: {
+    title: 'Claw MBTI - Teste de Personalidade do Agente de IA',
+    description: 'Descubra o tipo de personalidade MBTI do seu agente de IA. Teste autônomo de 60 perguntas com resultados visuais detalhados.',
+    keywords: 'MBTI, agente de IA, teste de personalidade, OpenClaw, OpenClaw MBTI, Claw MBTI, MoltBot, MoltBot MBTI, personalidade de bot, tipo de personalidade IA, 16 personalidades, teste MBTI, AI MBTI',
+  },
+  es: {
+    title: 'Claw MBTI - Test de Personalidad del Agente de IA',
+    description: 'Descubre el tipo de personalidad MBTI de tu agente de IA. Test autónomo de 60 preguntas con resultados visuales detallados.',
+    keywords: 'MBTI, agente de IA, test de personalidad, OpenClaw, OpenClaw MBTI, Claw MBTI, MoltBot, MoltBot MBTI, personalidad de bot, tipo de personalidad IA, 16 personalidades, test MBTI, AI MBTI',
+  },
+  ru: {
+    title: 'Claw MBTI - Тест Личности ИИ-Агента',
+    description: 'Узнайте тип личности MBTI вашего ИИ-агента. Автономный тест из 60 вопросов с подробными визуальными результатами.',
+    keywords: 'MBTI, ИИ-агент, тест личности, OpenClaw, OpenClaw MBTI, Claw MBTI, MoltBot, MoltBot MBTI, личность бота, тип личности ИИ, 16 личностей, тест MBTI, AI MBTI',
+  },
+};
+
 export type Translations = typeof en;

@@ -266,7 +266,19 @@ const OG_CTA = {
   ru: 'Узнайте личность вашего ИИ-агента на Claw MBTI.',
 };
 
-function replaceOgTags(html, { title, desc, image, url, ogLocale }) {
+/** Per-language SEO keywords for meta tags */
+const SEO_KEYWORDS = {
+  en: 'MBTI, AI agent, personality test, OpenClaw, OpenClaw MBTI, Claw MBTI, MoltBot, MoltBot MBTI, bot personality, AI personality type, 16 personalities, MBTI test, AI MBTI, AI personality test, agent personality, bot MBTI',
+  ko: 'MBTI, AI 에이전트, 성격 검사, 오픈클로, 오픈클로 MBTI, 클로 MBTI, 몰트봇, 몰트봇 MBTI, 봇 성격, AI 성격 유형, 16가지 성격, MBTI 테스트, AI MBTI, AI 성격 테스트, 에이전트 성격, 봇 MBTI, OpenClaw, MoltBot, Claw MBTI',
+  zh: 'MBTI, AI代理, 性格测试, OpenClaw, OpenClaw MBTI, Claw MBTI, MoltBot, MoltBot MBTI, 机器人性格, AI性格类型, 16种性格, MBTI测试, AI MBTI, AI性格测试, 代理性格, 机器人MBTI',
+  ja: 'MBTI, AIエージェント, 性格テスト, OpenClaw, OpenClaw MBTI, Claw MBTI, MoltBot, MoltBot MBTI, ボット性格, AI性格タイプ, 16の性格, MBTIテスト, AI MBTI, AI性格テスト, エージェント性格, ボットMBTI',
+  th: 'MBTI, AI เอเจนต์, แบบทดสอบบุคลิกภาพ, OpenClaw, OpenClaw MBTI, Claw MBTI, MoltBot, MoltBot MBTI, บอทบุคลิกภาพ, AI บุคลิกภาพ, 16 บุคลิกภาพ, ทดสอบ MBTI, AI MBTI',
+  pt: 'MBTI, agente de IA, teste de personalidade, OpenClaw, OpenClaw MBTI, Claw MBTI, MoltBot, MoltBot MBTI, personalidade de bot, tipo de personalidade IA, 16 personalidades, teste MBTI, AI MBTI',
+  es: 'MBTI, agente de IA, test de personalidad, OpenClaw, OpenClaw MBTI, Claw MBTI, MoltBot, MoltBot MBTI, personalidad de bot, tipo de personalidad IA, 16 personalidades, test MBTI, AI MBTI',
+  ru: 'MBTI, ИИ-агент, тест личности, OpenClaw, OpenClaw MBTI, Claw MBTI, MoltBot, MoltBot MBTI, личность бота, тип личности ИИ, 16 личностей, тест MBTI, AI MBTI',
+};
+
+function replaceOgTags(html, { title, desc, image, url, ogLocale, keywords }) {
   let h = html;
   h = h.replace(/<title>[^<]*<\/title>/, `<title>${title}</title>`);
   h = h.replace(/<meta property="og:title" content="[^"]*" \/>/, `<meta property="og:title" content="${title}" />`);
@@ -281,6 +293,9 @@ function replaceOgTags(html, { title, desc, image, url, ogLocale }) {
   h = h.replace(/<meta name="twitter:image" content="[^"]*" \/>/, `<meta name="twitter:image" content="${image}" />`);
   h = h.replace(/<meta name="twitter:url" content="[^"]*" \/>/, `<meta name="twitter:url" content="${url}" />`);
   h = h.replace(/<meta name="description" content="[^"]*" \/>/, `<meta name="description" content="${desc}" />`);
+  if (keywords) {
+    h = h.replace(/<meta name="keywords" content="[^"]*" \/>/, `<meta name="keywords" content="${keywords}" />`);
+  }
   return h;
 }
 
@@ -297,6 +312,7 @@ for (const lang of LANGS) {
       const ogImage = `${BASE_URL}/images/mbti/${fullType}.jpeg`;
       const langPrefix = lang === 'en' ? '' : `/${lang}`;
       const ogUrl = `${BASE_URL}${langPrefix}/result/${slug}`;
+      const typeKeywords = `${SEO_KEYWORDS[lang]}, ${fullType}, ${base}, ${title[lang]}`;
 
       const html = replaceOgTags(template, {
         title: ogTitle,
@@ -304,6 +320,7 @@ for (const lang of LANGS) {
         image: ogImage,
         url: ogUrl,
         ogLocale: OG_LOCALES[lang],
+        keywords: typeKeywords,
       });
 
       // For English: also write to dist/result/{type}/ (backward compat)
@@ -336,6 +353,7 @@ for (const lang of LANGS) {
     image: ogImage,
     url: ogUrl,
     ogLocale: OG_LOCALES[lang],
+    keywords: SEO_KEYWORDS[lang],
   });
 
   const outDir = resolve(distDir, lang);
